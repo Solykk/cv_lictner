@@ -6,7 +6,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -57,7 +57,7 @@ public class Main extends Application{
                 stageForChat = new Stage();
                 stageForChat.initStyle(StageStyle.TRANSPARENT);
 
-                chatWindow = new ChatWindow(PROPERTIES).createGroup();
+                chatWindow = new ChatWindow(PROPERTIES, 3333).createGroup();
 
                 chatWindow.getChildren().get(11).setOnMousePressed(event1 -> {
                     xOffsetChatWin = event1.getSceneX();
@@ -94,7 +94,7 @@ public class Main extends Application{
                 stageForChat4 = new Stage();
                 stageForChat4.initStyle(StageStyle.TRANSPARENT);
 
-                chatWindow4 = new ChatWindow(PROPERTIES).createGroup();
+                chatWindow4 = new ChatWindow(PROPERTIES, 3334).createGroup();
 
                 chatWindow4.getChildren().get(11).setOnMousePressed(event1 -> {
                     xOffsetChatWin4 = event1.getSceneX();
@@ -131,7 +131,7 @@ public class Main extends Application{
                 stageForChat5 = new Stage();
                 stageForChat5.initStyle(StageStyle.TRANSPARENT);
 
-                chatWindow5 = new ChatWindow(PROPERTIES).createGroup();
+                chatWindow5 = new ChatWindow(PROPERTIES, 3335).createGroup();
 
                 chatWindow5.getChildren().get(11).setOnMousePressed(event1 -> {
                     xOffsetChatWin5 = event1.getSceneX();
@@ -168,7 +168,7 @@ public class Main extends Application{
                 stageForChat6 = new Stage();
                 stageForChat6.initStyle(StageStyle.TRANSPARENT);
 
-                chatWindow6 = new ChatWindow(PROPERTIES).createGroup();
+                chatWindow6 = new ChatWindow(PROPERTIES, 3336).createGroup();
 
                 chatWindow6.getChildren().get(11).setOnMousePressed(event1 -> {
                     xOffsetChatWin6 = event1.getSceneX();
@@ -205,7 +205,7 @@ public class Main extends Application{
                 stageForChat7 = new Stage();
                 stageForChat7.initStyle(StageStyle.TRANSPARENT);
 
-                chatWindow7 = new ChatWindow(PROPERTIES).createGroup();
+                chatWindow7 = new ChatWindow(PROPERTIES, 3337).createGroup();
 
                 chatWindow7.getChildren().get(11).setOnMousePressed(event1 -> {
                     xOffsetChatWin7 = event1.getSceneX();
@@ -235,8 +235,12 @@ public class Main extends Application{
             }
         });
 
-        Pane pane = new Pane();
-        pane.getChildren().addAll(button, button1, button2, button3, button4);
+        GridPane pane = new GridPane();
+        pane.add(button, 0, 0);
+        pane.add(button1, 0, 1);
+        pane.add(button2, 0, 2);
+        pane.add(button3, 0, 3);
+        pane.add(button4, 0, 4);
         Scene scene = new Scene(pane, 150, 150);
         stage.setTitle("control.Main");
 

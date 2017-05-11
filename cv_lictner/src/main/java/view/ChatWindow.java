@@ -17,15 +17,16 @@ import service.ViewProperties;
 public class ChatWindow{
 
     private String headText = "Chat";
-    private String headUnderText = "chat_chat";
+    private String headUnderText;
     private String buttonText = "Send";
     private String inputInitText = "";
     private String outputInitText = "";
 
     private ViewProperties properties;
 
-    public ChatWindow(ViewProperties properties) {
+    public ChatWindow(ViewProperties properties, int port) {
         this.properties = properties;
+        this.headUnderText = "chat - " + String.valueOf(port);
     }
 
     public Group createGroup(){
