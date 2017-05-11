@@ -1,0 +1,6 @@
+.text-area, .text-area .viewport, .text-area .content {
+    -fx-background-color: rgba(0, 0, 0, 0.0);
+    -fx-font-family: 'Courier New';
+    -fx-font-size: 11;
+    -fx-text-fill: ghostwhite;
+}
