@@ -13,7 +13,7 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-import java.nio.channels.AsynchronousCloseException;
+
 import java.nio.channels.ClosedChannelException;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
@@ -88,7 +88,6 @@ public class Chat implements ChatProperties, Runnable{
     }
 
     private void boundListener() {
-        System.out.println("BOUND_LISTENER");
         try {
             if (serverSocketChannel.socket().isBound()) {
                 serverSocketChannel.socket().close();
@@ -106,12 +105,10 @@ public class Chat implements ChatProperties, Runnable{
     private void process() throws IOException, InterruptedException {
 
         if (clientChannel == null) {
-            System.out.println("ProcessChannel_NULL");
             connect();
         }
 
         if (clientChannel != null) {
-            System.out.println("ProcessChannel_NOT_NULL");
             readChannel(clientChannel);
             return;
         }
@@ -120,7 +117,6 @@ public class Chat implements ChatProperties, Runnable{
     private void connect() throws IOException, InterruptedException {
         try{
             if (serverSocketChannel == null){
-                System.out.println("serverSocket_NULL");
                 try {
                     serverSocketChannel = ServerSocketChannel.open();
                 }
@@ -134,14 +130,13 @@ public class Chat implements ChatProperties, Runnable{
             Thread.sleep(SleepTime);
 
             if (clientChannel != null) {
-                System.out.println("ConnectChannel_NOT_NULL");
                 sendMessage(clientChannel, "ONLINE".toUpperCase() + "\n", false);
             }
                 sendButton.setFill(Color.rgb(127,255,0));
+
                 System.out.println(clientChannel.toString());
 
         } catch (Exception e){
-            System.out.println("ConnectFAil");
             throw new InterruptedException();
         }
     }
@@ -156,8 +151,6 @@ public class Chat implements ChatProperties, Runnable{
         try {
             while ((readBytesNum = ch.read(buffInput)) > 0) {
                 String receivedMessage = buffToString(buffInput, readBytesNum);
-
-                System.out.println(receivedMessage.toUpperCase());
 
                 if (receivedMessage.equals(DisconnectMessage)){
                     disconnect();
@@ -183,19 +176,15 @@ public class Chat implements ChatProperties, Runnable{
 
     @Override
     public void run() {
-        System.out.println("Thread run");
         boundListener();
         while (runWhileController) {
             try {
-                System.out.println("Before Process");
-                Thread.sleep(1000);
+                Thread.sleep(SleepTime);
                 process();
-                System.out.println("After Process");
             } catch (Exception e) {
                 sendButton.setFill(Color.rgb(255, 40, 0));
                 setSendReceiveStat(-1);
                 clientChannel = null;
-                System.out.println(e.getMessage() + " ------ " + e.toString());
             }
         }
         disconnect();
@@ -206,11 +195,9 @@ public class Chat implements ChatProperties, Runnable{
         try {
             if (clientChannel != null && clientChannel.isOpen()) {
                 sendMessage(clientChannel, DisconnectMessage, false);
-                System.out.println("clientChannel.close();");
                 clientChannel.close();
             }
             if (serverSocketChannel != null && serverSocketChannel.isOpen()) {
-                System.out.println("serverSocketChannel.close();");
                 serverSocketChannel.close();
             }
         }
