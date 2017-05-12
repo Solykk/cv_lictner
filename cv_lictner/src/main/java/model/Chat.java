@@ -3,6 +3,8 @@ package model;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -83,6 +85,16 @@ public class Chat implements ChatProperties, Runnable{
             public void handle(MouseEvent event) {
                 sendMessage(clientChannel, input.getText(), true);
                 input.clear();
+            }
+        });
+
+        chatWindow.getChildren().get(9).setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if(event.getCode().equals(KeyCode.ENTER)){
+                    sendMessage(clientChannel, input.getText(), true);
+                    input.clear();
+                }
             }
         });
     }
