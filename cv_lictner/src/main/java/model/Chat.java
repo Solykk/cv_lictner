@@ -6,10 +6,13 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -65,7 +68,6 @@ public class Chat implements ChatProperties, Runnable{
         try {
             InetAddress ip = InetAddress.getLocalHost();
             this.myIpAddress = ip.getHostAddress();
-            System.out.println(myIpAddress);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -145,7 +147,6 @@ public class Chat implements ChatProperties, Runnable{
                 sendMessage(clientChannel, "ONLINE".toUpperCase() + "\n", false);
             }
                 sendButton.setFill(Color.rgb(127,255,0));
-
                 System.out.println(clientChannel.toString());
 
         } catch (Exception e){
@@ -163,16 +164,33 @@ public class Chat implements ChatProperties, Runnable{
         try {
             while ((readBytesNum = ch.read(buffInput)) > 0) {
                 String receivedMessage = buffToString(buffInput, readBytesNum);
-
+                System.out.println(receivedMessage);
                 if (receivedMessage.equals(DisconnectMessage)){
+                    try {
+                        new MediaPlayer(new Media(new File("outro.mp3").toURI().toString())).play();
+                    } catch (Exception e){
+
+                    }
                     disconnect();
                 } else {
+                    if (receivedMessage.equals("ONLINE\n")){
+                        try {
+                            new MediaPlayer(new Media(new File("intro.mp3").toURI().toString())).play();
+                        } catch (Exception e){
+
+                        }
+                    }
                     if (!receivedMessage.equals(DisconnectMessage)) {
-                        output.setStyle("-fx-text-fill: white");
+                        output.setStyle("-fx-text-fill: chartreuse");
+                        try {
+                            new MediaPlayer(new Media(new File("message.mp3").toURI().toString())).play();
+                        } catch (Exception e){
+
+                        }
                         output.appendText("\n" + (sendReceiveStat != 0 ? "\tHR:\n" : "") +  receivedMessage);
                         setSendReceiveStat(0);
                     } else {
-                        output.setStyle("-fx-text-fill: white");
+                        output.setStyle("-fx-text-fill: chartreuse");
                         output.appendText(DisconnectMessage);
                         disconnect();
                     }
@@ -200,7 +218,6 @@ public class Chat implements ChatProperties, Runnable{
             }
         }
         disconnect();
-        System.out.println("Run complete");
     }
 
     private void disconnect() {
