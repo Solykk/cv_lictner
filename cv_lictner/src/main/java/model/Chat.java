@@ -53,12 +53,12 @@ public class Chat implements ChatProperties, Runnable{
         this.output = (TextArea)chatWindow.getChildren().get(10);
         this.sendButton = (Polygon) chatWindow.getChildren().get(14);
 
-        try {
-            serverSocketChannel = ServerSocketChannel.open();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            serverSocketChannel = ServerSocketChannel.open();
+//        }
+//        catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         init();
     }
@@ -103,10 +103,6 @@ public class Chat implements ChatProperties, Runnable{
 
     private void boundListener() {
         try {
-            if (serverSocketChannel.socket().isBound()) {
-                serverSocketChannel.socket().close();
-                serverSocketChannel.close();
-            }
             serverSocketChannel = ServerSocketChannel.open();
             serverSocketChannel.socket().bind(new InetSocketAddress(myIpAddress, listenPort));
             serverSocketChannel.configureBlocking(false);
@@ -124,19 +120,12 @@ public class Chat implements ChatProperties, Runnable{
 
         if (clientChannel != null) {
             readChannel(clientChannel);
-            return;
         }
     }
 
     private void connect() throws IOException, InterruptedException {
         try{
             if (serverSocketChannel == null){
-                try {
-                    serverSocketChannel = ServerSocketChannel.open();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
                 boundListener();
             }
 
@@ -145,8 +134,8 @@ public class Chat implements ChatProperties, Runnable{
 
             if (clientChannel != null) {
                 sendMessage(clientChannel, "ONLINE".toUpperCase() + "\n", false);
-            }
                 sendButton.setFill(Color.rgb(127,255,0));
+            }
 
         } catch (Exception e){
             throw new InterruptedException();
@@ -164,27 +153,27 @@ public class Chat implements ChatProperties, Runnable{
             while ((readBytesNum = ch.read(buffInput)) > 0) {
                 String receivedMessage = buffToString(buffInput, readBytesNum);
                 if (receivedMessage.equals(DisconnectMessage)){
-                    try {
-                        new MediaPlayer(new Media(new File("src/main/resources/outro.mp3").toURI().toString())).play();
-                    } catch (Exception e){
-
-                    }
+//                    try {
+//                        new MediaPlayer(new Media(new File("src/main/resources/outro.mp3").toURI().toString())).play();
+//                    } catch (Exception e){
+//
+//                    }
                     disconnect();
                 } else {
-                    if (receivedMessage.equals("ONLINE\n")){
-                        try {
-                            new MediaPlayer(new Media(new File("src/main/resources/intro.mp3").toURI().toString())).play();
-                        } catch (Exception e){
-
-                        }
-                    }
+//                    if (receivedMessage.equals("ONLINE\n")){
+//                        try {
+//                            new MediaPlayer(new Media(new File("src/main/resources/intro.mp3").toURI().toString())).play();
+//                        } catch (Exception e){
+//
+//                        }
+//                    }
                     if (!receivedMessage.equals(DisconnectMessage)) {
                         output.setStyle("-fx-text-fill: chartreuse");
-                        try {
-                            new MediaPlayer(new Media(new File("src/main/resources/message.mp3").toURI().toString())).play();
-                        } catch (Exception e){
-
-                        }
+//                        try {
+//                            new MediaPlayer(new Media(new File("src/main/resources/message.mp3").toURI().toString())).play();
+//                        } catch (Exception e){
+//
+//                        }
                         output.appendText("\n" + (sendReceiveStat != 0 ? "\tHR:\n" : "") +  receivedMessage);
                         setSendReceiveStat(0);
                     } else {
@@ -196,8 +185,8 @@ public class Chat implements ChatProperties, Runnable{
                 buffInput.clear();
             }
         } catch (ClosedChannelException e) {
-            e.printStackTrace();
             disconnect();
+            throw e;
         }
         return readBytesNum;
     }
