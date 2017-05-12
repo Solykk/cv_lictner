@@ -147,7 +147,6 @@ public class Chat implements ChatProperties, Runnable{
                 sendMessage(clientChannel, "ONLINE".toUpperCase() + "\n", false);
             }
                 sendButton.setFill(Color.rgb(127,255,0));
-                System.out.println(clientChannel.toString());
 
         } catch (Exception e){
             throw new InterruptedException();
@@ -164,10 +163,9 @@ public class Chat implements ChatProperties, Runnable{
         try {
             while ((readBytesNum = ch.read(buffInput)) > 0) {
                 String receivedMessage = buffToString(buffInput, readBytesNum);
-                System.out.println(receivedMessage);
                 if (receivedMessage.equals(DisconnectMessage)){
                     try {
-                        new MediaPlayer(new Media(new File("outro.mp3").toURI().toString())).play();
+                        new MediaPlayer(new Media(new File("src/main/resources/outro.mp3").toURI().toString())).play();
                     } catch (Exception e){
 
                     }
@@ -175,7 +173,7 @@ public class Chat implements ChatProperties, Runnable{
                 } else {
                     if (receivedMessage.equals("ONLINE\n")){
                         try {
-                            new MediaPlayer(new Media(new File("intro.mp3").toURI().toString())).play();
+                            new MediaPlayer(new Media(new File("src/main/resources/intro.mp3").toURI().toString())).play();
                         } catch (Exception e){
 
                         }
@@ -183,7 +181,7 @@ public class Chat implements ChatProperties, Runnable{
                     if (!receivedMessage.equals(DisconnectMessage)) {
                         output.setStyle("-fx-text-fill: chartreuse");
                         try {
-                            new MediaPlayer(new Media(new File("message.mp3").toURI().toString())).play();
+                            new MediaPlayer(new Media(new File("src/main/resources/message.mp3").toURI().toString())).play();
                         } catch (Exception e){
 
                         }
